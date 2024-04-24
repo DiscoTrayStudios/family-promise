@@ -40,44 +40,69 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Person.Email)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Person.HouseHoldNum)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Person.HouseHoldNum)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Person.ChildNum)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Person.ChildNum)
-        </dd>
-        @if (Model.Person.HouseHoldMemberExist.HasValue && Model.Adults.Count > 0)
-        {
-            // Loop through each adult in the household
-            for (int i = 0; i < Model.Adults.Count; i++)
-            {
-                <dd>
-                    @Html.DisplayNameFor(model => model.Adults[i].FirstMidName) @Html.DisplayNameFor(model => model.Adults[i].LastName)
-                </dd>
-                <dt>
-                    @Html.DisplayFor(model => model.Adults[i].FirstMidName) @Html.DisplayFor(model => model.Adults[i].LastName)
-                </dt>
-            }
-        }
-        @if (Model.Person.HouseHoldChildrenExist.HasValue) {
-            for (int i = 0; i < Model.Children.Count; i++) {
-                <dd>
-                    @Html.DisplayNameFor(model => model.Children[i].FirstMidName) @Html.DisplayNameFor(model => model.Children[i].LastName)
-                </dd>
-                <dt>
-                    @Html.DisplayFor(model => model.Children[i].FirstMidName) @Html.DisplayFor(model => model.Children[i].LastName)
-                </dt>
-            }
-        }
+        </dd>        
     </dl>
+       
 </div>
+<table class=table>
+    <thead>
+        <tr>
+            <th>
+                @* @Html.DisplayNameFor(model => model.Person.FirstMidName).Replace("First Name", "First")
+                @Html.DisplayNameFor(model => model.Person.LastName).Replace("Last Name", "Last") *@
+                Name
+            </th>
+            <th>
+                Role
+            </th>
+            <th>
+                DOB
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Phone
+            </th>
+
+        </tr>
+        @for (int i = 0; i < Model.Adults.Count; i++) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Adults[i].FirstMidName) @Html.DisplayFor(model => model.Adults[i].LastName) 
+                </td>
+                <td>
+                    Adult
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Adults[i].DateOfBirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Adults[i].Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Adults[i].CellPhone)
+                </td>
+            </tr>
+        }
+        @for (int i = 0; i < Model.Children.Count; i++) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => model.Children[i].LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Children[i].FirstMidName)
+                </td>
+                <td>
+                    Child
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.Children[i].DateOfBirth)
+                </td>
+            </tr>
+        }
+    </thead>
+</table>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Person?.ID">Edit</a> |
     <a asp-page="./Index">Back</a>
