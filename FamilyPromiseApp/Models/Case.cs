@@ -63,6 +63,7 @@ public enum Substance
     public class Case
     {
         public int ID { get; set; }
+
         [Display(Name = "Referral taken by:")]
         public string TakenBy { get; set; }
 

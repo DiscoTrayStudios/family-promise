@@ -21,6 +21,7 @@ namespace FamilyPromiseApp.Models
         
         [Display(Name = "Client ID")]
         public int ID { get; set; }
+        public int CaseID { get; set; }
         // [Key]
         // public int CaseID { get; set; }
         [Display(Name = "Last Name")]

@@ -19,48 +19,52 @@
     <div class="col-md-4">
         <form method="post">
             <div class="Form-Section">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Person.LastName" class="control-label"></label>
-                <input asp-for="Person.LastName" class="form-control" />
-                <span asp-validation-for="Person.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Person.FirstMidName" class="control-label"></label>
-                <input asp-for="Person.FirstMidName" class="form-control" />
-                <span asp-validation-for="Person.FirstMidName" class="text-danger"></span>
-            </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Person.LastName" class="control-label"></label>
+                    <input asp-for="Person.LastName" class="form-control" />
+                    <span asp-validation-for="Person.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Person.FirstMidName" class="control-label"></label>
+                    <input asp-for="Person.FirstMidName" class="form-control" />
+                    <span asp-validation-for="Person.FirstMidName" class="text-danger"></span>
+                </div>
 
-            @{
-                var defaultDateOfBirth = DateTime.Today.AddYears(-30).ToString("yyyy-MM-dd");
-             }
+                @{
+                    var defaultDateOfBirth = DateTime.Today.AddYears(-30).ToString("yyyy-MM-dd");
+                }
 
-            <div class="form-group">
-                <label asp-for="Person.DateOfBirth" class="control-label"></label>
-                <input asp-for="Person.DateOfBirth" class="form-control" type="date" value="@defaultDateOfBirth" />
-                <span asp-validation-for="Person.DateOfBirth" class="text-danger"></span>
-            </div>
-                        <div class="form-group">
-                <label asp-for="Person.CellPhone" class="control-label"></label>
-                <input asp-for="Person.CellPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
-                <span asp-validation-for="Person.CellPhone" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Person.DateOfBirth" class="control-label"></label>
+                    <input asp-for="Person.DateOfBirth" class="form-control" type="date" value="@defaultDateOfBirth" />
+                    <span asp-validation-for="Person.DateOfBirth" class="text-danger"></span>
+                </div>
+                            <div class="form-group">
+                    <label asp-for="Person.CellPhone" class="control-label"></label>
+                    <input asp-for="Person.CellPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
+                    <span asp-validation-for="Person.CellPhone" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Person.WorkPhone" class="control-label"></label>
-                <input asp-for="Person.WorkPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
-                <span asp-validation-for="Person.WorkPhone" class="text-danger"></span>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Person.WorkPhone" class="control-label"></label>
+                    <input asp-for="Person.WorkPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
+                    <span asp-validation-for="Person.WorkPhone" class="text-danger"></span>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="Person.Email" class="control-label"></label>
-                <input asp-for="Person.Email" class="form-control" />
-                <span asp-validation-for="Person.Email" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="Person.Email" class="control-label"></label>
+                    <input asp-for="Person.Email" class="form-control" />
+                    <span asp-validation-for="Person.Email" class="text-danger"></span>
+                </div>
+                @*Add an associated caseID*@
+                <div class="form-group">
+                    <label asp-for="Person.CaseID" class="control-label"></label>
+                    <input asp-for="Person.CaseID" class="form-control" />
+                    <span asp-validation-for="Person.CaseID" class="text-danger"></span>
+                </div>
             </div>
-             <div class="col-md-12">
-             </div>
-            </div>
-             <div class="Form-Section">
+            <div class="Form-Section">
                 <h4>Additional Adults Information</h4>
                 <hr />
                 <div class="form-group">
@@ -799,42 +803,41 @@
                 <span asp-validation-for="Case.DomesticViolenceHistory" class="text-danger"></span>
             </div>
             <div class="form-group">
-    <h2>Select Referrals:</h2>
-    @if (Model.Person != null && Model.Person.AvailableReferrals != null)
-    {
-        HashSet<String> uniqueReferralNames = new HashSet<String>();
+                <h2>Select Referrals:</h2>
+                @if (Model.Person != null && Model.Person.AvailableReferrals != null)
+                {
+                    HashSet<String> uniqueReferralNames = new HashSet<String>();
 
-        foreach (var referral in Model.Person.AvailableReferrals)
-        {
-            if (!uniqueReferralNames.Contains(referral.Text))
-            {
-                uniqueReferralNames.Add(referral.Text);
-                <div class="form-check">
-                    <input type="checkbox" name="SelectedReferralIds" value="@referral.Value" id="@($"Referral_{referral.Value}")" class="form-check-input" />
-                    <label class="form-check-label" for="@($"Referral_{referral.Value}")">@referral.Text</label>
-                </div>
-            }
-        }
-    }
-    else
-    {
-        <p>Error: AvailableReferrals is not properly initialized.</p>
-    }
-</div>
-
-
-
-            
-
- 
+                    foreach (var referral in Model.Person.AvailableReferrals)
+                    {
+                        if (!uniqueReferralNames.Contains(referral.Text))
+                        {
+                            uniqueReferralNames.Add(referral.Text);
+                            <div class="form-check">
+                                <input type="checkbox" name="SelectedReferralIds" value="@referral.Value" id="@($"Referral_{referral.Value}")" class="form-check-input" />
+                                <label class="form-check-label" for="@($"Referral_{referral.Value}")">@referral.Text</label>
+                            </div>
+                        }
+                    }
+                }
+                else
+                {
+                    <p>Error: AvailableReferrals is not properly initialized.</p>
+                }
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
-                </div>  
-            </div>  
+        </div>  
+    </div>  
     
            
-        <script>
+        
+ 
+    </form>
+    </div>
+</div>
+<script>
             $(document).ready(function () {
                 $("#childExistDropdown").change(function () {
                     var selectedValue = $(this).val();
@@ -894,10 +897,6 @@
         });
         
         </script>
- 
-        </form>
-    </div>
-</div>
  
  
 @section Scripts {
