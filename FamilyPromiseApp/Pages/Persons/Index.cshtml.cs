@@ -37,5 +37,25 @@ namespace FamilyPromiseApp.Pages.Persons
                 Case = await _context.Case.ToListAsync();
             }
         }
+
+        public Case getCaseFromPerson(int id)
+        {
+            var person = _context.Person.FirstOrDefault(c => c.ID == id);
+            var caseID = person.Case.ID;
+            var selCase = _context.Case.FirstOrDefault(c => c.ID == caseID);
+            Console.WriteLine("Case ID: " + selCase.ID);
+            return selCase;
+
+        }
+
+        public Person getPersonFromCase(int id)
+        {
+            var selCase = _context.Case.FirstOrDefault(c => c.ID == id);
+            var selCaseID = selCase.ID;
+            ///var personID = selCase.Person.ID;
+            var person = _context.Person.FirstOrDefault(p => p.Case.ID == selCaseID);
+            Console.WriteLine("Person ID: " + person.ID);
+            return person;
+        }
     }
 }

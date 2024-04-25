@@ -88,7 +88,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Case[0].ID)
             </th>
-            
+            <th>
+                @Html.DisplayNameFor(model => model.Person[0].ID)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Person[0].LastName).Replace("Last Name", "Last")
             </th>
@@ -127,11 +129,22 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ID)
             </td>
+            @{
+
+                var caseID = item.ID;
+                var person = Model.getPersonFromCase(caseID);
+
+
+            }
+            <td>
+                @person.ID
+
+            </td>
              <td>
-                @Html.DisplayFor(model => model.Person[0].LastName)
+                @person.LastName
             </td>
             <td>
-                @Html.DisplayFor(model => model.Person[0].FirstMidName)
+                @person.FirstMidName
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TakenBy)
