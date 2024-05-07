@@ -9,6 +9,7 @@
 
 @{
     var defaultDateOfBirth = DateTime.Today.AddYears(-30).ToString("yyyy-MM-dd");
+    var defaultChildDateOfBirth = DateTime.Today.AddYears(-10).ToString("yyyy-MM-dd");
     var dateOfSubmission = DateTime.Today.ToString("yyyy-MM-dd");
     var timeOfSubmission = DateTime.Now.ToString("HH:mm");
 }
@@ -16,264 +17,366 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
  
 
-<h4>IntakeModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div class="Form-Section">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" id="adultNum">
-                <label asp-for="IntakeModel.AdultNum" class="control-label"></label>
-                <input asp-for="IntakeModel.AdultNum" class="form-control" type="number" min="1" value="1" oninput="validity.valid||(value='1');" />
-                <span asp-validation-for="IntakeModel.AdultNum" class="text-danger"></span>
+<h2>Intake Process Form</h2>
+<br/>
+<form method="post">
+    <div class="Form-Section">
+        <h4>Referral Information</h4>
+        <hr/>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="IntakeModel.DateAdmitted" class="control-label"></label>
+                    <input asp-for="IntakeModel.DateAdmitted" class="form-control" />
+                    <span asp-validation-for="IntakeModel.DateAdmitted" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.DateAdmitted" class="control-label"></label>
-                <input asp-for="IntakeModel.DateAdmitted" class="form-control" />
-                <span asp-validation-for="IntakeModel.DateAdmitted" class="text-danger"></span>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="IntakeModel.CompletionDate" class="control-label"></label>
+                    <input asp-for="IntakeModel.CompletionDate" class="form-control" />
+                    <span asp-validation-for="IntakeModel.CompletionDate" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.CompletionDate" class="control-label"></label>
-                <input asp-for="IntakeModel.CompletionDate" class="form-control" />
-                <span asp-validation-for="IntakeModel.CompletionDate" class="text-danger"></span>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="IntakeModel.ReferralAgency" class="control-label"></label>
+                    <select asp-for="IntakeModel.ReferralAgency" class="form-control"
+                            asp-items="@Model.ReferralNameSL">
+                        <option value="">-- Select one --</option>
+                    </select>
+                    <span asp-validation-for="IntakeModel.ReferralAgency" class="text-danger" />
+                </div>
             </div>
-            
+            <div class="col-md-2">
+                <div class="form-group" id="adultNum">
+                    <label asp-for="IntakeModel.AdultNum" class="control-label"></label>
+                    <input asp-for="IntakeModel.AdultNum" class="form-control" type="number" min="1" max="12" value="1" />
+                    <span asp-validation-for="IntakeModel.AdultNum" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label asp-for="IntakeModel.ChildSchool" class="control-label"></label>
+                    <input asp-for="IntakeModel.ChildSchool" class="form-control" min="0" max="11" value="0" id="numChildrenInSchool" />
+                    <span asp-validation-for="IntakeModel.ChildSchool" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
-             <div class="form-group">
-                <label asp-for="IntakeModel.ReferralAgency" class="control-label"></label>
-                <select asp-for="IntakeModel.ReferralAgency" class="form-control"
-                        asp-items="@Model.ReferralNameSL">
-                    <option value="">-- Select one --</option>
-                </select>
-                <span asp-validation-for="IntakeModel.ReferralAgency" class="text-danger" />
-            </div>
-
-            </div>
-            <div class="Form-Section">
-            <h4>Adults</h4>
-            <hr />
-
+<div class="Form-Section">
+    <h4>Head of Household</h4>
+    <hr/>
+    <div class="row">
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.LastName" class="control-label"></label>
                 <input asp-for="IntakeModel.LastName" class="form-control" />
                 <span asp-validation-for="IntakeModel.LastName" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.FirstName" class="control-label"></label>
                 <input asp-for="IntakeModel.FirstName" class="form-control" />
                 <span asp-validation-for="IntakeModel.FirstName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.Age" class="control-label"></label>
-                <input asp-for="IntakeModel.Age" class="form-control" type="number" min="18" value="30" />
-                <span asp-validation-for="IntakeModel.Age" class="text-danger"></span>
-            </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.DOB" class="control-label"></label>
                 <input asp-for="IntakeModel.DOB" class="form-control" type="date" value="@defaultDateOfBirth" />
                 <span asp-validation-for="IntakeModel.DOB" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.MaritalStatus" class="control-label"></label>
-                @Html.DropDownListFor(model => model.IntakeModel.MaritalStatus,
-                                      new SelectList(Enum.GetValues(typeof(Models.MaritalStatus))),
-                                      "Select",
-                                      new { @class = "form-select", id="MaritalStatusDropdown" })
-                <span asp-validation-for="IntakeModel.MaritalStatus" class="text-danger"></span>
-            </div>
-            <!-- Placeholder div for Spouse Location -->
-            <div id="SpouseLocation"></div>
-            </div>
-            <!-- Placeholder div for autogenerated sections-->
-            <div id="additionalAdults"></div>
-            <div class="Form-Section">
-            <h4>ID Submission Here</h4>
-            <div class="form-group">
-                <label asp-for="IntakeModel.IDNum" class="control-label"></label>
-                <input asp-for="IntakeModel.IDNum" class="form-control" />
-                <span asp-validation-for="IntakeModel.IDNum" class="text-danger"></span>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.CellPhoneNum" class="control-label"></label>
-                <input asp-for="IntakeModel.CellPhoneNum" class="form-control" />
+                <input asp-for="IntakeModel.CellPhoneNum" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
                 <span asp-validation-for="IntakeModel.CellPhoneNum" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.WorkPhoneNum" class="control-label"></label>
-                <input asp-for="IntakeModel.WorkPhoneNum" class="form-control" />
+                <input asp-for="IntakeModel.WorkPhoneNum" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" />
                 <span asp-validation-for="IntakeModel.WorkPhoneNum" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.EmailAdd" class="control-label"></label>
                 <input asp-for="IntakeModel.EmailAdd" class="form-control" />
                 <span asp-validation-for="IntakeModel.EmailAdd" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
-                <label asp-for="IntakeModel.HomeAddress" class="control-label"></label>
-                <input asp-for="IntakeModel.HomeAddress" class="form-control" />
-                <span asp-validation-for="IntakeModel.HomeAddress" class="text-danger"></span>
+                <label asp-for="IntakeModel.MaritalStatus" class="control-label"></label>
+                @Html.DropDownListFor(model => model.IntakeModel.MaritalStatus,
+                                        new SelectList(Enum.GetValues(typeof(Models.MaritalStatus))),
+                                        "Select",
+                                        new { @class = "form-select", id="MaritalStatusDropdown" })
+                <span asp-validation-for="IntakeModel.MaritalStatus" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.Education" class="control-label"></label>
-                <input asp-for="IntakeModel.Education" class="form-control" />
-                <span asp-validation-for="IntakeModel.Education" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.WorkStudy" class="control-label"></label>
-                @Html.DropDownListFor(model => model.IntakeModel.WorkStudy,
-                                      new SelectList(Enum.GetValues(typeof(Models.YorN))),
-                                      "Select",
-                                      new { @class = "form-select", id = "WorkStudyDropdown" })
-                <span asp-validation-for="IntakeModel.WorkStudy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.SSN" class="control-label"></label>
-                <input asp-for="IntakeModel.SSN" class="form-control" />
-                <span asp-validation-for="IntakeModel.SSN" class="text-danger"></span>
-            </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.Race" class="control-label"></label>
                 <input asp-for="IntakeModel.Race" class="form-control" />
                 <span asp-validation-for="IntakeModel.Race" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="IntakeModel.ChildSchool" class="control-label"></label>
-                <input asp-for="IntakeModel.ChildSchool" class="form-control" min="0" value="0" id="numChildrenInSchool" />
-                <span asp-validation-for="IntakeModel.ChildSchool" class="text-danger"></span>
-            </div>
-            <div id="childrenInSchool"></div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.Gender" class="control-label"></label>
                 <input asp-for="IntakeModel.Gender" class="form-control" />
                 <span asp-validation-for="IntakeModel.Gender" class="text-danger"></span>
             </div>
-            <div class="col-md-12"></div>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label asp-for="IntakeModel.Education" class="control-label"></label>
+                <input asp-for="IntakeModel.Education" class="form-control" />
+                <span asp-validation-for="IntakeModel.Education" class="text-danger"></span>
             </div>
-            <div class="Form-Section">
-            <h4>Previous Living Situation</h4>
-            <hr />
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label asp-for="IntakeModel.WorkStudy" class="control-label"></label>
+                @Html.DropDownListFor(model => model.IntakeModel.WorkStudy,
+                                        new SelectList(Enum.GetValues(typeof(Models.YorN))),
+                                        "Select",
+                                        new { @class = "form-select", id = "WorkStudyDropdown" })
+                <span asp-validation-for="IntakeModel.WorkStudy" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label asp-for="IntakeModel.IDNum" class="control-label"></label>
+                <input asp-for="IntakeModel.IDNum" class="form-control" required/>
+                <span asp-validation-for="IntakeModel.IDNum" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label asp-for="IntakeModel.SSN" class="control-label"></label>
+                <input asp-for="IntakeModel.SSN" class="form-control" pattern="[0-9]{3}-[0-9]{2}-[0-9]{4}" placeholder="###-##-####" required/>
+                <span asp-validation-for="IntakeModel.SSN" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+
+<div class="Form-Section">
+    <div id="adultHeader">
+        <h4>Additional Adults</h4>
+        <hr/>
+    </div>
+    <!-- Placeholder div for autogenerated adults-->
+    <div id="additionalAdults" class="row"></div>
+</div>
+
+<div class="Form-Section">
+    <div id="childHeader">
+        <h4>Additional Children</h4>
+        <hr/>
+    </div>
+    <!-- Placeholder div for autogenerated adults-->
+    <div id="additionalChildren" class="row"></div>
+</div>
+
+<div class="Form-Section">
+    <h4>Previous Living Situation</h4>
+    <hr />
+    <div class="row">
+        <div class="col-xl-3">
+            <div class="form-group">
+                <label asp-for="IntakeModel.HomeAddress" class="control-label"></label>
+                <input asp-for="IntakeModel.HomeAddress" class="form-control" />
+                <span asp-validation-for="IntakeModel.HomeAddress" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.RecentHousing" class="control-label"></label>
                 @Html.DropDownListFor(model => model.IntakeModel.RecentHousing,
-                                      new SelectList(Enum.GetValues(typeof(Models.RecentHousing))),
-                                      "Select",
-                                      new { @class = "form-select", id = "RecentHousingDropdown" })
+                                        new SelectList(Enum.GetValues(typeof(Models.RecentHousing))),
+                                        "Select",
+                                        new { @class = "form-select", id = "RecentHousingDropdown" })
                 <span asp-validation-for="IntakeModel.RecentHousing" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.HouseType" class="control-label"></label>
                 @Html.DropDownListFor(model => model.IntakeModel.HouseType,
-                                      new SelectList(Enum.GetValues(typeof(Models.HouseType))),
-                                      "Select",
-                                      new { @class = "form-select", id = "HouseTypeDropdown" })
+                                        new SelectList(Enum.GetValues(typeof(Models.HouseType))),
+                                        "Select",
+                                        new { @class = "form-select", id = "HouseTypeDropdown" })
                 <span asp-validation-for="IntakeModel.HouseType" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.Reason" class="control-label"></label>
                 @Html.DropDownListFor(model => model.IntakeModel.Reason,
-                                      new SelectList(Enum.GetValues(typeof(Models.Reason1))),
-                                      "Select",
-                                      new { @class = "form-select", id = "ReasonDropdown" })
+                                        new SelectList(Enum.GetValues(typeof(Models.Reason1))),
+                                        "Select",
+                                        new { @class = "form-select", id = "ReasonDropdown" })
                 <span asp-validation-for="IntakeModel.Reason" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.Reason2" class="control-label"></label>
                 @Html.DropDownListFor(model => model.IntakeModel.Reason2,
-                                      new SelectList(Enum.GetValues(typeof(Models.Reason2))),
-                                      "Select",
-                                      new { @class = "form-select", id = "Reason2Dropdown" })
+                                        new SelectList(Enum.GetValues(typeof(Models.Reason2))),
+                                        "Select",
+                                        new { @class = "form-select", id = "Reason2Dropdown" })
                 <span asp-validation-for="IntakeModel.Reason2" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.IsHoused" class="control-label"></label>
                 <input asp-for="IntakeModel.IsHoused" class="form-control" />
                 <span asp-validation-for="IntakeModel.IsHoused" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.IsEmployed" class="control-label"></label>
                 <input asp-for="IntakeModel.IsEmployed" class="form-control" />
                 <span asp-validation-for="IntakeModel.IsEmployed" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.Income" class="control-label"></label>
                 <input asp-for="IntakeModel.Income" class="form-control" />
                 <span asp-validation-for="IntakeModel.Income" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.TransportMethod" class="control-label"></label>
                 <input asp-for="IntakeModel.TransportMethod" class="form-control" />
                 <span asp-validation-for="IntakeModel.TransportMethod" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-xl-3">
             <div class="form-group">
                 <label asp-for="IntakeModel.SubstanceIss" class="control-label"></label>
                 <input asp-for="IntakeModel.SubstanceIss" class="form-control" />
                 <span asp-validation-for="IntakeModel.SubstanceIss" class="text-danger"></span>
             </div>
-            </div>
-            <div class="Form-Section">
-            <h4>Emergency Contact</h4>
-            <hr />
+        </div>
+        <div class="col-xl-3">
+        </div>
+    </div>
+</div>
+
+<div class="Form-Section">
+    <h4>Emergency Contact</h4>
+    <hr />
+    <div class="row">
+        <div class="col-lg-2">
             <div class="form-group">
                 <label asp-for="IntakeModel.LastName" class="control-label"></label>
                 <input asp-for="IntakeModel.LastName" class="form-control" />
                 <span asp-validation-for="IntakeModel.LastName" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-lg-2">
             <div class="form-group">
                 <label asp-for="IntakeModel.FirstName" class="control-label"></label>
                 <input asp-for="IntakeModel.FirstName" class="form-control" />
                 <span asp-validation-for="IntakeModel.FirstName" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-lg-2">
             <div class="form-group">
                 <label asp-for="IntakeModel.CellPhoneNum" class="control-label"></label>
                 <input asp-for="IntakeModel.CellPhoneNum" class="form-control" />
                 <span asp-validation-for="IntakeModel.CellPhoneNum" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-lg-2">
             <div class="form-group">
                 <label asp-for="IntakeModel.WorkPhoneNum" class="control-label"></label>
                 <input asp-for="IntakeModel.WorkPhoneNum" class="form-control" />
                 <span asp-validation-for="IntakeModel.WorkPhoneNum" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-lg-2">
             <div class="form-group">
                 <label asp-for="IntakeModel.EmailAdd" class="control-label"></label>
                 <input asp-for="IntakeModel.EmailAdd" class="form-control" />
                 <span asp-validation-for="IntakeModel.EmailAdd" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-lg-2">
             <div class="form-group">
                 <label asp-for="IntakeModel.Relationships" class="control-label"></label>
                 <input asp-for="IntakeModel.Relationships" class="form-control" />
                 <span asp-validation-for="IntakeModel.Relationships" class="text-danger"></span>
             </div>
-            </div>
-            <div class="Form-Section">
-            <h4>Case Information</h4>
-            <hr />
+        </div>
+    </div>
+</div>
+
+<div class="Form-Section">
+    <h4>Case Information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.DateToday" class="control-label"></label>
                 <input asp-for="IntakeModel.DateToday" class="form-control" value="@dateOfSubmission" readonly/>
                 <span asp-validation-for="IntakeModel.DateToday" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.TimeNow" class="control-label"></label>
                 <input asp-for="IntakeModel.TimeNow" class="form-control" value="@timeOfSubmission" readonly/>
                 <span asp-validation-for="IntakeModel.TimeNow" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-4">
             <div class="form-group">
                 <label asp-for="IntakeModel.TakenByNow" class="control-label"></label>
                 <input asp-for="IntakeModel.TakenByNow" class="form-control" />
                 <span asp-validation-for="IntakeModel.TakenByNow" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            
-            
-            <!--Function for hiding forms if no is selected-->
-            <script>
-                function generateAdults(numAdults) {
-                document.getElementById('additionalAdults').innerHTML = '';
-                    console.log("Generating adults...");
-                    for (var i = 2; i <= numAdults; i++) {
-                        var sectionHtml = `
-                            <h4> Adult ${i} Information </h4>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Save" class="btn btn-primary" />
+</div>
+        
+        
+        <!--Function for hiding forms if no is selected-->
+        <script>
+            function generateAdults(numAdults) {
+            document.getElementById('additionalAdults').innerHTML = '';
+                console.log("Generating adults...");
+                for (var i = 2; i <= numAdults; i++) {
+                    var sectionHtml = `
+                        <div class="col-md-4">
+                            <b> Adult ${i}'s Information </b>
                             <div class="form-group">
                                 <label asp-for="IntakeModel.LastName" class="control-label">Adult ${i}'s Last Name</label>
                                 <input asp-for="IntakeModel.LastName" class="form-control" />
@@ -285,121 +388,154 @@
                                 <span asp-validation-for="IntakeModel.FirstName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="IntakeModel.Age" class="control-label">Adult ${i}'s Age</label>
-                                <input asp-for="IntakeModel.Age" class="form-control" type="number" min="18" value="30" />
-                                <span asp-validation-for="IntakeModel.Age" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
                                 <label asp-for="IntakeModel.DOB" class="control-label">Adult ${i}'s Date of Birth</label>
                                 <input asp-for="IntakeModel.DOB" class="form-control" type="date" value="@defaultDateOfBirth" />
                                 <span asp-validation-for="IntakeModel.DOB" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="IntakeModel.MaritalStatus" class="control-label">Adult ${i}'s Marital Status</label>
-                                <input asp-for="IntakeModel.MaritalStatus" class="form-control" />
-                                <span asp-validation-for="IntakeModel.MaritalStatus" class="text-danger"></span>
-                            </div>`;
-                        console.log("I " +i);
-                        console.log("Number of Adults " +numAdults);
-                        document.getElementById('additionalAdults').insertAdjacentHTML('beforeend', sectionHtml);
-                    }
+                            <br>
+                        </div>`;
+                    console.log("I = " + i);
+                    console.log("Number of Adults = " + numAdults);
+                    document.getElementById('additionalAdults').insertAdjacentHTML('beforeend', sectionHtml);
                 }
-    
-                $('#adultNum input').on('input', function () {
-                    var enteredNum = parseInt($(this).val(), 10) || 1;
-                    console.log("Entered Number: " + enteredNum);
-                    generateAdults(enteredNum);
+            }
+
+            $('#adultNum input').on('input', function () {
+                var enteredNum = parseInt($(this).val(), 10) || 1;
+                console.log("Entered Number: " + enteredNum);
+                generateAdults(enteredNum);
+            });
+            generateAdults(document.querySelector('#adultNum input').value);
+
+            $(document).ready(function () {
+                $("#adultHeader").hide();
+                $("#adultNum input").change(function () {
+                    var numAdults = $("#adultNum input").val();
+
+                    if (numAdults == 1) {
+                        console.log("No adults.")
+                        $("#adultHeader").hide();
+                    } else {
+                        console.log("Adults found.")
+                        $("#adultHeader").show();
+                    }
                 });
-                generateAdults(document.querySelector('#adultNum input').value);
+            });
 
-                $(document).ready(function () {
-                    $("#houseHoldMemberExistsDropdown").change(function () {
-                        var selectedValue = $(this).val();
-                        $(".houseHoldSection").hide();
- 
-                        if (selectedValue.toLowerCase() === 'yes') {
-                            $(".houseHoldSection").show();
-                            $(".houseHoldSection input").prop("disabled", false);
-                            $(".houseHoldSection input").prop("required", true);
-                        } else {
-                            $(".houseHoldSection input").prop("disabled", true);
-                            $(".houseHoldSection input").prop("required", false);
-                        }
+            $(document).ready(function () {
+                $("#childHeader").hide();
+                $("#numChildrenInSchool").change(function () {
+                    var numChildren = $("#numChildrenInSchool").val();
 
-                    });
+                    if (numChildren == 0) {
+                        console.log("No children.")
+                        $("#childHeader").hide();
+                    } else {
+                        console.log("Children found.")
+                        $("#childHeader").show();
+                    }
                 });
+            });
 
-                  $(document).ready(function () {
-                    $("#childExistDropdown").change(function () {
-                        var selectedValue = $(this).val();
-                        $(".childSection").hide();
- 
-                        if (selectedValue.toLowerCase() === 'yes') {
-                            $(".childSection").show();
-                            $(".childSection input").prop("disabled", false);
-                            $(".childSection input").prop("required", true);
-                        } else {
-                            $(".childSection input").prop("disabled", true);
-                            $(".childSection input").prop("required", false);
-                        }
+            $(document).ready(function () {
+                $("#houseHoldMemberExistsDropdown").change(function () {
+                    var selectedValue = $(this).val();
+                    $(".houseHoldSection").hide();
 
-                    });
+                    if (selectedValue.toLowerCase() === 'yes') {
+                        $(".houseHoldSection").show();
+                        $(".houseHoldSection input").prop("disabled", false);
+                        $(".houseHoldSection input").prop("required", true);
+                    } else {
+                        $(".houseHoldSection input").prop("disabled", true);
+                        $(".houseHoldSection input").prop("required", false);
+                    }
+
                 });
-                
-            </script>
+            });
 
-            <!-- Function for hiding marital status -->
-            <script>
-                $(document).ready(function(){
-                    $("#MaritalStatusDropdown").change(function() {
-                        console.log("MARITAL STATUS CHANGED")
-                        document.getElementById("SpouseLocation").innerHTML = '';
-                        var maritalStatus = $("#MaritalStatusDropdown").val()
-                        if (maritalStatus == "Married") {
-                            console.log("VALUES MATCH")
-                            var sectionHTML = `
+            $(document).ready(function () {
+                $("#childExistDropdown").change(function () {
+                    var selectedValue = $(this).val();
+                    $(".childSection").hide();
+
+                    if (selectedValue.toLowerCase() === 'yes') {
+                        $(".childSection").show();
+                        $(".childSection input").prop("disabled", false);
+                        $(".childSection input").prop("required", true);
+                    } else {
+                        $(".childSection input").prop("disabled", true);
+                        $(".childSection input").prop("required", false);
+                    }
+
+                });
+            });
+            
+        </script>
+
+        <!-- Function for hiding marital status -->
+        <script>
+            $(document).ready(function(){
+                $("#MaritalStatusDropdown").change(function() {
+                    console.log("MARITAL STATUS CHANGED")
+                    document.getElementById("SpouseLocation").innerHTML = '';
+                    var maritalStatus = $("#MaritalStatusDropdown").val()
+                    if (maritalStatus == "Married") {
+                        var sectionHTML = `
+                        <div class="form-group">
+                            <label asp-for="IntakeModel.SpouseLocation" class="control-label">Where is your spouse located?</label>
+                            <input asp-for="IntakeModel.SpouseLocation" class="form-control" />
+                            <span asp-validation-for="IntakeModel.SpouseLocation" class="text-danger"></span>
+                        </div>
+                        `;
+                        document.getElementById('SpouseLocation').insertAdjacentHTML('beforeend', sectionHTML); 
+                    }})
+            })  
+        </script>
+
+        <!-- Function for getting school children's info -->
+        <script>
+            function generateChildren(numChildren) {
+                document.getElementById('additionalChildren').innerHTML = '';
+                console.log("Generating children...")
+                for (var i = 1; i <= numChildren; i++) {
+                    var sectionHtml = `
+                        <div class="col-md-4">
+                            <b> Child ${i}'s Information </b>
                             <div class="form-group">
-                                <label asp-for="IntakeModel.SpouseLocation" class="control-label">Where is your spouse located?</label>
-                                <input asp-for="IntakeModel.SpouseLocation" class="form-control" />
-                                <span asp-validation-for="IntakeModel.SpouseLocation" class="text-danger"></span>
+                                <label class="control-label" >Child ${i}'s Last Name</label>
+                                <input class="form-control" />
                             </div>
-                            `;
-                            document.getElementById('SpouseLocation').insertAdjacentHTML('beforeend', sectionHTML); 
-                        }})
-                })  
-            </script>
-
-            <!-- Function for getting school children's info -->
-            <script>
-                function generateChildren(numChildren) {
-                    document.getElementById('childrenInSchool').innerHTML = '';
-                    console.log("Generating children...")
-                    for (var i = 1; i <= numChildren; i++) {
-                        var sectionHtml = `
+                            <div class="form-group">
+                                <label class="control-label" >Child ${i}'s First Name</label>
+                                <input class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" >Child ${i}'s Date of Birth</label>
+                                <input  class="form-control" type="date" value="@defaultChildDateOfBirth" />
+                            </div>
                             <div class="form-group">
                                 <label asp-for="IntakeModel.ChildGrade" class="control-label">Child ${i}'s Grade</label>
                                 <input asp-for="IntakeModel.ChildGrade" class="form-control" type="number" min="0" max="12" value="0" />
                                 <span asp-validation-for="IntakeModel.ChildGrade" class="text-danger"></span>
                             </div>
-                            `;
-                        console.log("I :: " + i);
-                        console.log("Number of Children in School :: " + numChildren);
-                        document.getElementById('childrenInSchool').insertAdjacentHTML('beforeend', sectionHtml);
-                    }
+                            <br>
+                        </div>
+                        `;
+                    console.log("I :: " + i);
+                    console.log("Number of Children in School :: " + numChildren);
+                    document.getElementById('additionalChildren').insertAdjacentHTML('beforeend', sectionHtml);
                 }
+            }
 
-                $('#numChildrenInSchool').on('input', function () {
-                    var enteredNum = $(this).val();
-                    console.log("Entered Number: " + enteredNum);
-                    generateChildren(enteredNum);
-                });
-                generateChildren(document.querySelector('#numChildrenInSchool').value);
-            </script>
-            
-            </div>
-        </form>
+            $('#numChildrenInSchool').on('input', function () {
+                var enteredNum = $(this).val();
+                console.log("Entered Number: " + enteredNum);
+                generateChildren(enteredNum);
+            });
+            generateChildren(document.querySelector('#numChildrenInSchool').value);
+        </script>  
     </div>
-</div>
 </div>
 
 @section Scripts {

@@ -10,795 +10,850 @@
     var ChildrenList = Model.Children;
 }
 
+@{
+    var dateToday = DateTime.Today.ToString("yyyy-MM-dd");
+    var timeNow = DateTime.Now.ToString("HH:mm");
+    var defaultDateOfBirth = DateTime.Today.AddYears(-30).ToString("yyyy-MM-dd");
+    var defaultChildDateOfBirth = DateTime.Today.AddYears(-10).ToString("yyyy-MM-dd");
+ }
+
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
  
-<h4>Client Contact</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div class="Form-Section">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Person.LastName" class="control-label"></label>
-                <input asp-for="Person.LastName" class="form-control" />
-                <span asp-validation-for="Person.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Person.FirstMidName" class="control-label"></label>
-                <input asp-for="Person.FirstMidName" class="form-control" />
-                <span asp-validation-for="Person.FirstMidName" class="text-danger"></span>
-            </div>
-
-            @{
-                var defaultDateOfBirth = DateTime.Today.AddYears(-30).ToString("yyyy-MM-dd");
-             }
-
-            <div class="form-group">
-                <label asp-for="Person.DateOfBirth" class="control-label"></label>
-                <input asp-for="Person.DateOfBirth" class="form-control" type="date" value="@defaultDateOfBirth" />
-                <span asp-validation-for="Person.DateOfBirth" class="text-danger"></span>
-            </div>
-                        <div class="form-group">
-                <label asp-for="Person.CellPhone" class="control-label"></label>
-                <input asp-for="Person.CellPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
-                <span asp-validation-for="Person.CellPhone" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Person.WorkPhone" class="control-label"></label>
-                <input asp-for="Person.WorkPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
-                <span asp-validation-for="Person.WorkPhone" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Person.Email" class="control-label"></label>
-                <input asp-for="Person.Email" class="form-control" />
-                <span asp-validation-for="Person.Email" class="text-danger"></span>
-            </div>
-             <div class="col-md-12">
-             </div>
-            </div>
-             <div class="Form-Section">
-                <h4>Additional Adults Information</h4>
-                <hr />
+<h2>Initial Contact Form</h2>
+<br/>
+<form method="post">
+    <div class="Form-Section">
+        <h4>Client Information</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-4">
                 <div class="form-group">
-                    <label asp-for="Person.HouseHoldMemberExist" for="houseHoldMemberExistDropdown" class="control-label"></label>
-                        @Html.DropDownListFor(model => model.Person.HouseHoldMemberExist,
-                            new SelectList(Enum.GetValues(typeof(Models.AnyHouseHold))),
-                            new { @class = "form-select", id = "houseHoldMemberExistDropdown", value = "Yes" })
-                    <span asp-validation-for="Person.HouseHoldMemberExist" class="text-danger"></span>
+                    <label asp-for="Person.LastName" class="control-label"></label>
+                    <input asp-for="Person.LastName" class="form-control" required />
+                    <span asp-validation-for="Person.LastName" class="text-danger"></span>
                 </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="Person.FirstMidName" class="control-label"></label>
+                    <input asp-for="Person.FirstMidName" class="form-control" required />
+                    <span asp-validation-for="Person.FirstMidName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="Person.DateOfBirth" class="control-label"></label>
+                    <input asp-for="Person.DateOfBirth" class="form-control" type="date" value="@defaultDateOfBirth" />
+                    <span asp-validation-for="Person.DateOfBirth" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="Person.CellPhone" class="control-label"></label>
+                    <input asp-for="Person.CellPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" required />
+                    <span asp-validation-for="Person.CellPhone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="Person.WorkPhone" class="control-label"></label>
+                    <input asp-for="Person.WorkPhone" class="form-control" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="###-###-####" />
+                    <span asp-validation-for="Person.WorkPhone" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label asp-for="Person.Email" class="control-label"></label>
+                    <input asp-for="Person.Email" class="form-control" />
+                    <span asp-validation-for="Person.Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
     
-                <div class="form-group houseHoldSection" id="houseHoldNum">
-                    <label asp-for="Person.HouseHoldNum" class="control-label"></label>
-                    <input asp-for="Person.HouseHoldNum" class="form-control" type="number" min="1" max="11" value="1" oninput="validity.valid||(value='1');" />
-                    <span asp-validation-for="Person.HouseHoldNum" class="text-danger"></span>
-                </div>
-                <!--Holds an arbitrary number of adults-->
-                <div id="AdultsEntry">
-                    <!-- Template for a specific adult-->
-                    <div id="Adult_1">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 1 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[1].LastName" class="control-label"></label>
-                            <input asp-for="Adults[1].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[1].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[1].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[1].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[1].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[1].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[1].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[1].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[1].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[1].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[1].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[1].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[1].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[1].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[1].Email" class="control-label"></label>
-                            <input asp-for="Adults[1].Email" class="form-control" />
-                            <span asp-validation-for="Adults[1].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_2">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 2 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[2].LastName" class="control-label"></label>
-                            <input asp-for="Adults[2].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[2].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[2].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[2].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[2].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[2].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[2].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[2].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[2].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[2].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[2].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[2].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[2].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[2].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[2].Email" class="control-label"></label>
-                            <input asp-for="Adults[2].Email" class="form-control" />
-                            <span asp-validation-for="Adults[2].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_3">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 3 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[3].LastName" class="control-label"></label>
-                            <input asp-for="Adults[3].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[3].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[3].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[3].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[3].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[3].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[3].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[3].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[3].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[3].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[3].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[3].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[3].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[3].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[3].Email" class="control-label"></label>
-                            <input asp-for="Adults[3].Email" class="form-control" />
-                            <span asp-validation-for="Adults[3].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_4">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 4 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[4].LastName" class="control-label"></label>
-                            <input asp-for="Adults[4].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[4].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[4].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[4].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[4].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[4].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[4].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[4].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[4].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[4].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[4].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[4].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[4].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[4].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[4].Email" class="control-label"></label>
-                            <input asp-for="Adults[4].Email" class="form-control" />
-                            <span asp-validation-for="Adults[4].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_5">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 5 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[5].LastName" class="control-label"></label>
-                            <input asp-for="Adults[5].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[5].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[5].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[5].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[5].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[5].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[5].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[5].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[5].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[5].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[5].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[5].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[5].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[5].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[5].Email" class="control-label"></label>
-                            <input asp-for="Adults[5].Email" class="form-control" />
-                            <span asp-validation-for="Adults[5].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_6">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 6 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[6].LastName" class="control-label"></label>
-                            <input asp-for="Adults[6].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[6].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[6].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[6].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[6].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[6].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[6].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[6].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[6].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[6].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[6].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[6].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[6].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[6].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[6].Email" class="control-label"></label>
-                            <input asp-for="Adults[6].Email" class="form-control" />
-                            <span asp-validation-for="Adults[6].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_7">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 7 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[7].LastName" class="control-label"></label>
-                            <input asp-for="Adults[7].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[7].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[7].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[7].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[7].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[7].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[7].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[7].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[7].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[7].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[7].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[7].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[7].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[7].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[7].Email" class="control-label"></label>
-                            <input asp-for="Adults[7].Email" class="form-control" />
-                            <span asp-validation-for="Adults[7].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_8">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 8 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[8].LastName" class="control-label"></label>
-                            <input asp-for="Adults[8].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[8].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[8].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[8].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[8].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[8].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[8].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[8].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[8].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[8].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[8].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[8].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[8].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[8].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[8].Email" class="control-label"></label>
-                            <input asp-for="Adults[8].Email" class="form-control" />
-                            <span asp-validation-for="Adults[8].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_9">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 9 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[9].LastName" class="control-label"></label>
-                            <input asp-for="Adults[9].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[9].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[9].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[9].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[9].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[9].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[9].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[9].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[9].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[9].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[9].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[9].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[9].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[9].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[9].Email" class="control-label"></label>
-                            <input asp-for="Adults[9].Email" class="form-control" />
-                            <span asp-validation-for="Adults[9].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_10">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 10 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[10].LastName" class="control-label"></label>
-                            <input asp-for="Adults[10].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[10].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[10].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[10].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[10].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[10].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[10].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[10].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[10].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[10].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[10].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[10].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[10].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[10].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[10].Email" class="control-label"></label>
-                            <input asp-for="Adults[10].Email" class="form-control" />
-                            <span asp-validation-for="Adults[10].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div id="Adult_11">
-                        <br class="form-group houseHoldSection">
-                        <b class="form-group houseHoldSection">Adult 11 Information</b>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[11].LastName" class="control-label"></label>
-                            <input asp-for="Adults[11].LastName" class="form-control" />
-                            <span asp-validation-for="Adults[11].LastName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[11].FirstMidName" class="control-label"></label>
-                            <input asp-for="Adults[11].FirstMidName" class="form-control" />
-                            <span asp-validation-for="Adults[11].FirstMidName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[11].DateOfBirth" class="control-label"></label>
-                            <input asp-for="Adults[11].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
-                            <span asp-validation-for="Adults[11].DateOfBirth" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[11].CellPhone" class="control-label"></label>
-                            <input asp-for="Adults[11].CellPhone" class="form-control" />
-                            <span asp-validation-for="Adults[11].CellPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[11].WorkPhone" class="control-label"></label>
-                            <input asp-for="Adults[11].WorkPhone" class="form-control" />
-                            <span asp-validation-for="Adults[11].WorkPhone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group houseHoldSection">
-                            <label asp-for="Adults[11].Email" class="control-label"></label>
-                            <input asp-for="Adults[11].Email" class="form-control" />
-                            <span asp-validation-for="Adults[11].Email" class="text-danger"></span>
-                        </div>
-                    </div>
-                    
+    
 
-
-                </div>
-                
+    
+    
+   
+    
+<div class="Form-Section">
+    <h4>Additional Adults Information</h4>
+    <hr />
+    <div class="row">
+        <div class="col-xl-2">
+            <div class="form-group">
+                <label asp-for="Person.HouseHoldMemberExist" for="houseHoldMemberExistDropdown" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Person.HouseHoldMemberExist,
+                    new SelectList(Enum.GetValues(typeof(Models.AnyHouseHold))),
+                    new { @class = "form-select", id = "houseHoldMemberExistDropdown" })
+                <span asp-validation-for="Person.HouseHoldMemberExist" class="text-danger"></span>
             </div>
-            <div class="col-md-12"> 
-                <div class="Form-Section"> 
-                    <div id="AllChildren"> 
-                        <h4>Children Information</h4> 
-                        <hr /> 
-                         
-                            <div class="form-group"> 
-                                <label asp-for="Person.HouseHoldChildrenExist" class="control-label" for="childExistDropdown"></label> 
-                                @Html.DropDownListFor(model => model.Person.HouseHoldChildrenExist, 
-                                                    new SelectList(Enum.GetValues(typeof(Models.AnyChildren))), 
-                                                    new { @class = "form-select", id = "childExistDropdown", value = "Yes"}) 
-                                <span asp-validation-for="Person.HouseHoldChildrenExist" class="text-danger"></span> 
-                            </div> 
-                        <!--When you select a number of children, print the number to the console--> 
-                            <div class="form-group childSection" id="numChild"> 
-                                <label asp-for="Person.ChildNum" class="control-label" for="numChild"></label> 
-                                <input asp-for="Person.ChildNum" id="numChild"class="form-control" type="number" min="1" max="11" value="1" oninput="validity.valid||(value='1');" onchange="onNumChildrenSelected()" /> 
-                                <span asp-validation-for="Person.ChildNum" class="text-danger"></span> 
-                            </div> 
-                            <!--Holds an arbitrary number of children--> 
-                            <div id="ChildrenEntry"> 
-                                <!-- Template for a specific child--> 
-                                <div id="Child_1"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 1 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[1].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[1].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[1].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[1].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[1].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[1].FirstMidName" class="text-danger"></span> 
-                                    </div> 
-                                    @{ 
-                                        var defaultChildDateOfBirth = DateTime.Today.AddYears(-10).ToString("yyyy-MM-dd"); 
-                                    } 
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[1].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[1].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[1].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_2"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 2 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[2].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[2].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[2].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[2].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[2].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[2].FirstMidName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[2].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[2].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[2].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_3"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 3 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[3].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[3].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[3].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[3].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[3].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[3].FirstMidName" class="text-danger"></span> 
-                                    </div> 
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[3].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[3].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[3].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_4"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 4 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[4].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[4].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[4].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[4].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[4].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[4].FirstMidName" class="text-danger"></span> 
-                                    </div> 
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[4].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[4].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[4].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_5"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 5 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[5].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[5].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[5].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[5].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[5].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[5].FirstMidName" class="text-danger"></span> 
-                                    </div> 
-                                     
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[5].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[5].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[5].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_6"><br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 6 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[6].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[6].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[6].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[6].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[6].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[6].FirstMidName" class="text-danger"></span> 
-                                    </div> 
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[6].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[6].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[6].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_7"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 7 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[7].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[7].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[7].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[7].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[7].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[7].FirstMidName" class="text-danger"></span> 
-                                    </div> 
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[7].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[7].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[7].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_8"><br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 8 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[8].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[8].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[8].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[8].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[8].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[8].FirstMidName" class="text-danger"></span> 
-                                    </div> 
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[8].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[8].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[8].DateOfBirth" class="text-danger"></span> 
-                                    </div></div> 
-                                <div id="Child_9"><br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 9 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[9].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[9].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[9].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[9].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[9].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[9].FirstMidName" class="text-danger"></span> 
-                                    </div> 
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[9].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[9].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[9].DateOfBirth" class="text-danger"></span> 
-                                    </div></div> 
-                                <div id="Child_10"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 10 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[10].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[10].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[10].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[10].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[10].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[10].FirstMidName" class="text-danger"></span> 
-                                    </div> 
-                                     
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[10].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[10].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[10].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                <div id="Child_11"> 
-                                    <br class="form-group childSection"> 
-                                    <b class="form-group childSection">Child 11 Information</b> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[11].LastName" class="control-label"></label> 
-                                        <input asp-for="Children[11].LastName" class="form-control" /> 
-                                        <span asp-validation-for="Children[11].LastName" class="text-danger"></span> 
-                                    </div> 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[11].FirstMidName" class="control-label"></label> 
-                                        <input asp-for="Children[11].FirstMidName" class="form-control" /> 
-                                        <span asp-validation-for="Children[11].FirstMidName" class="text-danger"></span> 
-                                    </div> 
-                                     
- 
-                                    <div class="form-group childSection"> 
-                                        <label asp-for="Children[11].DateOfBirth" class="control-label"></label> 
-                                        <input asp-for="Children[11].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
-                                        <span asp-validation-for="Children[11].DateOfBirth" class="text-danger"></span> 
-                                    </div> 
-                                </div> 
-                                 
-                            </div> 
-            <div class="col-md-12">
-                <div class="Form-Section">
-            <h4>Case Information</h4>
-            <hr />
+        </div>
+        <div class="col-xl-2">
+            <div class="form-group houseHoldSection" id="houseHoldNum">
+                <label asp-for="Person.HouseHoldNum" class="control-label"></label>
+                <input asp-for="Person.HouseHoldNum" class="form-control" type="number" min="1" max="11" value="1" oninput="validity.valid||(value='1');" />
+                <span asp-validation-for="Person.HouseHoldNum" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <!--Holds an arbitrary number of adults-->
+    <div class="row" id="AdultsEntry">
+        <!-- Template for a specific adult-->
+        <div class="col-4" id="Adult_1">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 1 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[1].LastName" class="control-label"></label>
+                <input asp-for="Adults[1].LastName" class="form-control" />
+                <span asp-validation-for="Adults[1].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[1].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[1].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[1].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[1].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[1].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[1].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[1].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[1].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[1].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[1].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[1].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[1].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[1].Email" class="control-label"></label>
+                <input asp-for="Adults[1].Email" class="form-control" />
+                <span asp-validation-for="Adults[1].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_2">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 2 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[2].LastName" class="control-label"></label>
+                <input asp-for="Adults[2].LastName" class="form-control" />
+                <span asp-validation-for="Adults[2].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[2].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[2].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[2].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[2].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[2].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[2].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[2].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[2].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[2].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[2].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[2].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[2].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[2].Email" class="control-label"></label>
+                <input asp-for="Adults[2].Email" class="form-control" />
+                <span asp-validation-for="Adults[2].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_3">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 3 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[3].LastName" class="control-label"></label>
+                <input asp-for="Adults[3].LastName" class="form-control" />
+                <span asp-validation-for="Adults[3].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[3].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[3].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[3].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[3].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[3].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[3].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[3].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[3].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[3].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[3].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[3].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[3].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[3].Email" class="control-label"></label>
+                <input asp-for="Adults[3].Email" class="form-control" />
+                <span asp-validation-for="Adults[3].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_4">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 4 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[4].LastName" class="control-label"></label>
+                <input asp-for="Adults[4].LastName" class="form-control" />
+                <span asp-validation-for="Adults[4].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[4].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[4].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[4].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[4].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[4].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[4].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[4].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[4].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[4].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[4].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[4].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[4].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[4].Email" class="control-label"></label>
+                <input asp-for="Adults[4].Email" class="form-control" />
+                <span asp-validation-for="Adults[4].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_5">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 5 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[5].LastName" class="control-label"></label>
+                <input asp-for="Adults[5].LastName" class="form-control" />
+                <span asp-validation-for="Adults[5].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[5].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[5].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[5].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[5].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[5].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[5].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[5].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[5].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[5].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[5].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[5].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[5].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[5].Email" class="control-label"></label>
+                <input asp-for="Adults[5].Email" class="form-control" />
+                <span asp-validation-for="Adults[5].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_6">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 6 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[6].LastName" class="control-label"></label>
+                <input asp-for="Adults[6].LastName" class="form-control" />
+                <span asp-validation-for="Adults[6].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[6].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[6].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[6].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[6].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[6].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[6].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[6].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[6].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[6].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[6].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[6].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[6].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[6].Email" class="control-label"></label>
+                <input asp-for="Adults[6].Email" class="form-control" />
+                <span asp-validation-for="Adults[6].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_7">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 7 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[7].LastName" class="control-label"></label>
+                <input asp-for="Adults[7].LastName" class="form-control" />
+                <span asp-validation-for="Adults[7].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[7].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[7].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[7].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[7].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[7].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[7].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[7].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[7].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[7].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[7].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[7].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[7].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[7].Email" class="control-label"></label>
+                <input asp-for="Adults[7].Email" class="form-control" />
+                <span asp-validation-for="Adults[7].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_8">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 8 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[8].LastName" class="control-label"></label>
+                <input asp-for="Adults[8].LastName" class="form-control" />
+                <span asp-validation-for="Adults[8].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[8].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[8].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[8].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[8].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[8].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[8].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[8].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[8].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[8].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[8].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[8].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[8].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[8].Email" class="control-label"></label>
+                <input asp-for="Adults[8].Email" class="form-control" />
+                <span asp-validation-for="Adults[8].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_9">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 9 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[9].LastName" class="control-label"></label>
+                <input asp-for="Adults[9].LastName" class="form-control" />
+                <span asp-validation-for="Adults[9].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[9].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[9].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[9].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[9].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[9].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[9].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[9].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[9].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[9].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[9].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[9].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[9].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[9].Email" class="control-label"></label>
+                <input asp-for="Adults[9].Email" class="form-control" />
+                <span asp-validation-for="Adults[9].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_10">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 10 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[10].LastName" class="control-label"></label>
+                <input asp-for="Adults[10].LastName" class="form-control" />
+                <span asp-validation-for="Adults[10].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[10].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[10].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[10].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[10].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[10].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[10].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[10].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[10].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[10].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[10].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[10].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[10].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[10].Email" class="control-label"></label>
+                <input asp-for="Adults[10].Email" class="form-control" />
+                <span asp-validation-for="Adults[10].Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4" id="Adult_11">
+            <br class="form-group houseHoldSection">
+            <b class="form-group houseHoldSection">Adult 11 Information</b>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[11].LastName" class="control-label"></label>
+                <input asp-for="Adults[11].LastName" class="form-control" />
+                <span asp-validation-for="Adults[11].LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[11].FirstMidName" class="control-label"></label>
+                <input asp-for="Adults[11].FirstMidName" class="form-control" />
+                <span asp-validation-for="Adults[11].FirstMidName" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[11].DateOfBirth" class="control-label"></label>
+                <input asp-for="Adults[11].DateOfBirth" class="form-control" value="@defaultDateOfBirth"/>
+                <span asp-validation-for="Adults[11].DateOfBirth" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[11].CellPhone" class="control-label"></label>
+                <input asp-for="Adults[11].CellPhone" class="form-control" />
+                <span asp-validation-for="Adults[11].CellPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[11].WorkPhone" class="control-label"></label>
+                <input asp-for="Adults[11].WorkPhone" class="form-control" />
+                <span asp-validation-for="Adults[11].WorkPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group houseHoldSection">
+                <label asp-for="Adults[11].Email" class="control-label"></label>
+                <input asp-for="Adults[11].Email" class="form-control" />
+                <span asp-validation-for="Adults[11].Email" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12"> 
+    <div class="Form-Section"> 
+        <div id="AllChildren"> 
+            <h4>Children Information</h4> 
+            <hr /> 
+            <div class="row">
+                <div class="col-lg-2">
+                    <div class="form-group"> 
+                        <label asp-for="Person.HouseHoldChildrenExist" class="control-label" for="childExistDropdown"></label> 
+                        @Html.DropDownListFor(model => model.Person.HouseHoldChildrenExist, 
+                                            new SelectList(Enum.GetValues(typeof(Models.AnyChildren))), 
+                                            new { @class = "form-select", id = "childExistDropdown"}) 
+                        <span asp-validation-for="Person.HouseHoldChildrenExist" class="text-danger"></span> 
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <!--When you select a number of children, print the number to the console--> 
+                    <div class="form-group childSection" id="numChild"> 
+                        <label asp-for="Person.ChildNum" class="control-label" ></label> 
+                        <input asp-for="Person.ChildNum" class="form-control" type="number" min="1" max="11" value="1" oninput="validity.valid||(value='1');" /> 
+                        <span asp-validation-for="Person.ChildNum" class="text-danger"></span> 
+                    </div>
+                </div>
+            </div>    
+                
             
-             <div class="form-group">
-                <label asp-for="Case.Date" class="control-label"></label>
-                <input asp-for="Case.Date" class="form-control" />
-                <span asp-validation-for="Case.Date" class="text-danger"></span>
-            </div>
-             <div class="form-group">
-                <label asp-for="Case.Time" class="control-label"></label>
-                <input asp-for="Case.Time" class="form-control" />
-                <span asp-validation-for="Case.Time" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Case.TakenBy" class="control-label"></label>
-                <input asp-for="Case.TakenBy" class="form-control" />
-                <span asp-validation-for="Case.TakenBy" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Case.ReferringAgency" class="control-label"></label>
-                <input asp-for="Case.ReferringAgency" class="form-control" />
-                <span asp-validation-for="Case.ReferringAgency" class="text-danger"></span>
-            </div>
- 
-            <div class="col-md-12">
-            </div>
+            <!--Holds an arbitrary number of children-->
+            <div class="row" id="ChildrenEntry"> 
+                <!-- Template for a specific child--> 
+                <div class="col-4" id="Child_1"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 1 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[1].LastName" class="control-label"></label> 
+                        <input asp-for="Children[1].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[1].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[1].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[1].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[1].FirstMidName" class="text-danger"></span> 
+                    </div> 
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[1].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[1].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[1].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_2"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 2 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[2].LastName" class="control-label"></label> 
+                        <input asp-for="Children[2].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[2].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[2].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[2].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[2].FirstMidName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[2].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[2].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[2].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_3"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 3 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[3].LastName" class="control-label"></label> 
+                        <input asp-for="Children[3].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[3].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[3].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[3].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[3].FirstMidName" class="text-danger"></span> 
+                    </div> 
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[3].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[3].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[3].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_4"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 4 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[4].LastName" class="control-label"></label> 
+                        <input asp-for="Children[4].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[4].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[4].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[4].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[4].FirstMidName" class="text-danger"></span> 
+                    </div> 
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[4].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[4].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[4].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_5"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 5 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[5].LastName" class="control-label"></label> 
+                        <input asp-for="Children[5].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[5].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[5].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[5].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[5].FirstMidName" class="text-danger"></span> 
+                    </div> 
+                        
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[5].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[5].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[5].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_6">
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 6 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[6].LastName" class="control-label"></label> 
+                        <input asp-for="Children[6].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[6].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[6].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[6].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[6].FirstMidName" class="text-danger"></span> 
+                    </div> 
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[6].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[6].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[6].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_7"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 7 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[7].LastName" class="control-label"></label> 
+                        <input asp-for="Children[7].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[7].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[7].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[7].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[7].FirstMidName" class="text-danger"></span> 
+                    </div> 
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[7].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[7].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[7].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_8">
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 8 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[8].LastName" class="control-label"></label> 
+                        <input asp-for="Children[8].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[8].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[8].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[8].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[8].FirstMidName" class="text-danger"></span> 
+                    </div> 
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[8].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[8].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[8].DateOfBirth" class="text-danger"></span> 
+                    </div></div> 
+                <div class="col-4" id="Child_9">
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 9 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[9].LastName" class="control-label"></label> 
+                        <input asp-for="Children[9].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[9].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[9].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[9].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[9].FirstMidName" class="text-danger"></span> 
+                    </div> 
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[9].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[9].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[9].DateOfBirth" class="text-danger"></span> 
+                    </div></div> 
+                <div class="col-4" id="Child_10"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 10 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[10].LastName" class="control-label"></label> 
+                        <input asp-for="Children[10].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[10].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[10].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[10].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[10].FirstMidName" class="text-danger"></span> 
+                    </div> 
+                        
+
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[10].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[10].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[10].DateOfBirth" class="text-danger"></span> 
+                    </div> 
+                </div> 
+                <div class="col-4" id="Child_11"> 
+                    <br class="form-group childSection"> 
+                    <b class="form-group childSection">Child 11 Information</b> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[11].LastName" class="control-label"></label> 
+                        <input asp-for="Children[11].LastName" class="form-control" /> 
+                        <span asp-validation-for="Children[11].LastName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[11].FirstMidName" class="control-label"></label> 
+                        <input asp-for="Children[11].FirstMidName" class="form-control" /> 
+                        <span asp-validation-for="Children[11].FirstMidName" class="text-danger"></span> 
+                    </div> 
+                    <div class="form-group childSection"> 
+                        <label asp-for="Children[11].DateOfBirth" class="control-label"></label> 
+                        <input asp-for="Children[11].DateOfBirth" class="form-control" type="date" value="@defaultChildDateOfBirth" /> 
+                        <span asp-validation-for="Children[11].DateOfBirth" class="text-danger"></span> 
+                    </div> 
                 </div>
-                <div class="Form-Section">
-                
-                <h4>Current Living Situation</h4>
-                <hr />
-             <div class="form-group">
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-12">
+    <div class="Form-Section">
+        <h4>Case Information</h4>
+        <hr />
+        <div class="row">
+            <div class="col-xl-3">
+                <div class="form-group">
+                    <label asp-for="Case.Date" class="control-label"></label>
+                    <input asp-for="Case.Date" class="form-control" value="@dateToday" />
+                    <span asp-validation-for="Case.Date" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="form-group">
+                    <label asp-for="Case.Time" class="control-label"></label>
+                    <input asp-for="Case.Time" class="form-control" value="@timeNow" />
+                    <span asp-validation-for="Case.Time" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="form-group">
+                    <label asp-for="Case.TakenBy" class="control-label"></label>
+                    <input asp-for="Case.TakenBy" class="form-control" />
+                    <span asp-validation-for="Case.TakenBy" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-xl-3">
+                <div class="form-group">
+                    <label asp-for="Case.ReferringAgency" class="control-label"></label>
+                    <input asp-for="Case.ReferringAgency" class="form-control" />
+                    <span asp-validation-for="Case.ReferringAgency" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="Form-Section">
+    <h4>Current Living Situation</h4>
+    <hr />
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="form-group">
                 <label asp-for="Case.CurrentSituation" class="control-label"></label>
                 <input asp-for="Case.CurrentSituation" class="form-control" />
                 <span asp-validation-for="Case.CurrentSituation" class="text-danger"></span>
             </div>
-
+        </div>
+        <div class="col-sm-3">
             <div class="form-group">
                 <label asp-for="Case.IsHoused" class="control-label"></label>
                 <input asp-for="Case.IsHoused" class="form-control" />
                 <span asp-validation-for="Case.IsHoused" class="text-danger"></span>
             </div>
-             <div class="form-group">
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
                 <label asp-for="Case.IsEmployed" class="control-label">Employment Status</label>
                 <select asp-for="Case.IsEmployed" class="form-control">
-        <option value="">Select Employment Status</option>
-        @foreach (Employment value in Enum.GetValues(typeof(Employment)))
-        {
-            <option value="@value">@Enum.GetName(typeof(Employment), value)</option>
-        }
-    </select>
+                    <option value="">Select Employment Status</option>
+                    @foreach (Employment value in Enum.GetValues(typeof(Employment)))
+                    {
+                        <option value="@value">@Enum.GetName(typeof(Employment), value)</option>
+                    }
+                </select>
                 <span asp-validation-for="Case.IsEmployed" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-3">
             <div class="form-group">
                 <label asp-for="Case.income" class="control-label">Income per Month</label>
                 <input asp-for="Case.income" class="form-control" />
                 <span asp-validation-for="Case.income" class="text-danger"></span>
             </div>
-            <!--Make Transport Method a dropdown-->
+        </div>
+        <div class="col-sm-3">
             <div class="form-group">
                 <label asp-for="Case.TransportMethod" class="control-label">Transportation Method</label>
                 <select asp-for="Case.TransportMethod" class="form-control">
-        <option value="">Select Transportation Method</option>
-        @foreach (TransportationMethod value in Enum.GetValues(typeof(TransportationMethod)))
-        {
-            <option value="@value">@Enum.GetName(typeof(TransportationMethod), value)</option>
-        }
-    </select>
+                    <option value="">Select Transportation Method</option>
+                    @foreach (TransportationMethod value in Enum.GetValues(typeof(TransportationMethod)))
+                    {
+                        <option value="@value">@Enum.GetName(typeof(TransportationMethod), value)</option>
+                    }
+                </select>
                 <span asp-validation-for="Case.TransportMethod" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-3">
             <!--Make Substance a dropdown-->
             <div class="form-group">
                 <label asp-for="Case.Substance" class="control-label">Substance Abuse</label>
                 <select asp-for="Case.Substance" class="form-control">
-        <option value="">Select Substance Abuse</option>
-        @foreach (Substance value in Enum.GetValues(typeof(Substance)))
-        {
-            <option value="@value">@Enum.GetName(typeof(Substance), value)</option>
-        }
-    </select>
+                    <option value="">Select Substance Abuse</option>
+                    @foreach (Substance value in Enum.GetValues(typeof(Substance)))
+                    {
+                        <option value="@value">@Enum.GetName(typeof(Substance), value)</option>
+                    }
+                </select>
                 <span asp-validation-for="Case.Substance" class="text-danger"></span>
             </div>
-             <div class="form-group">
+        </div>
+        <div class="col-sm-3">
+            <div class="form-group">
                 <label asp-for="Case.HealthChallenge" class="control-label"></label>
                 <input asp-for="Case.HealthChallenge" class="form-control" />
                 <span asp-validation-for="Case.HealthChallenge" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-sm-3">
             <!--Make Domestic Violence a dropdown with -->
-             <div class="form-group">
+            <div class="form-group">
                 <label asp-for="Case.DomesticViolenceHistory" class="control-label"></label>
                 <input asp-for="Case.DomesticViolenceHistory" class="form-control" />
                 <span asp-validation-for="Case.DomesticViolenceHistory" class="text-danger"></span>
             </div>
-            <div class="form-group">
+        </div>
+    </div>
+</div>
+    
+<div class="form-group">
     <h2>Select Referrals:</h2>
     @if (Model.Person != null && Model.Person.AvailableReferrals != null)
     {
@@ -821,83 +876,105 @@
         <p>Error: AvailableReferrals is not properly initialized.</p>
     }
 </div>
-
-
-
-            
-
- 
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-                </div>  
-            </div>  
-    
-           
-        <script>
-            $(document).ready(function () {
-                $("#childExistDropdown").change(function () {
-                    var selectedValue = $(this).val();
-                    $(".childSection").hide();
-
-                    if (selectedValue.toLowerCase() === 'yes') {
-                        $(".childSection").show();
-                        $(".childSection input").prop("disabled", false);
-                        $(".childSection input").prop("required", true);
-                    } else {
-                        $(".childSection input").prop("disabled", true);
-                        $(".childSection input").prop("required", false);
-                    }
-
-                });
-            });
-
-            $(document).ready(function () {
-                $("#houseHoldMemberExistDropdown").change(function () {
-                var selectedValue = $(this).val();
-                $(".houseHoldSection").hide();
- 
-                if (selectedValue.toLowerCase() === 'yes') {
-                    $(".houseHoldSection").show();
-                    $(".houseHoldSection input").prop("disabled", false);
-                    $(".houseHoldSection input").prop("required", true);
-                } else {
-                    $(".houseHoldSection input").prop("disabled", true);
-                    $(".houseHoldSection input").prop("required", false);
-                }
-            });
-
- 
-            $('#houseHoldNum input').on('input', function () {
-                var enteredNum = parseInt($(this).val(), 10) || 1;
-                console.log("Entered Number: " + enteredNum);
-                for (var i = 1; i <= 11; i++) {
-                    if (i <= enteredNum) {
-                        document.getElementById(`Adult_${i}`).style.display = 'block';
-                    } else {
-                        document.getElementById(`Adult_${i}`).style.display = 'none';
-                    }
-                }
-            });
- 
-            $('#numChild input').on('input', function () {
-                var enteredNum = parseInt($(this).val(), 10) || 1;
-                console.log("Entered Number: " + enteredNum);
-                for (var i = 1; i <= 11; i++) {
-                    if (i <= enteredNum) {
-                        document.getElementById(`Child_${i}`).style.display = 'block';
-                    } else {
-                        document.getElementById(`Child_${i}`).style.display = 'none';
-                    }
-                }
-            });
-        });
-        
-        </script>
- 
-        </form>
+<div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
     </div>
-</div>
+</div>  
+</div>  
+
+    
+<script>
+    $(document).ready(function () {
+       $(".houseHoldSection").hide();
+       $(".childSection").hide();
+    })
+    
+    $(document).ready(function () {
+        $("#childExistDropdown").change(function () {
+            var selectedValue = $(this).val();
+            $(".childSection").hide();
+
+            if (selectedValue.toLowerCase() === 'yes') {
+                $(".childSection").show();
+                $(".childSection input").prop("disabled", false);
+                $(".childSection input").prop("required", true);
+            } else {
+                $(".childSection input").prop("disabled", true);
+                $(".childSection input").prop("required", false);
+            }
+        });
+
+        
+    });
+
+    $(document).ready(function () {
+        $("#houseHoldMemberExistDropdown").change(function () {
+        var selectedValue = $(this).val();
+        $(".houseHoldSection").hide();
+
+        if (selectedValue.toLowerCase() === 'yes') {
+            $(".houseHoldSection").show();
+            $(".houseHoldSection input").prop("disabled", false);
+            $(".houseHoldSection input").prop("required", true);
+        } else {
+            $(".houseHoldSection input").prop("disabled", true);
+            $(".houseHoldSection input").prop("required", false);
+        }
+    });
+
+    $(document).ready(function () {
+        var enteredNum = parseInt($('#houseHoldNum input').val(), 10) || 1;
+        console.log("Entered Number: " + enteredNum);
+        for (var i = 1; i <= 11; i++) {
+            if (i <= enteredNum) {
+                document.getElementById(`Adult_${i}`).style.display = 'block';
+            } else {
+                document.getElementById(`Adult_${i}`).style.display = 'none';
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        var enteredNum = parseInt($('#numChild input').val(), 10) || 1;
+        console.log("Entered Number: " + enteredNum);
+        for (var i = 1; i <= 11; i++) {
+            if (i <= enteredNum) {
+                document.getElementById(`Child_${i}`).style.display = 'block';
+            } else {
+                document.getElementById(`Child_${i}`).style.display = 'none';
+            }
+        }
+    });
+
+
+    $('#houseHoldNum input').on('input', function () {
+        var enteredNum = parseInt($(this).val(), 10) || 1;
+        console.log("Entered Number: " + enteredNum);
+        for (var i = 1; i <= 11; i++) {
+            if (i <= enteredNum) {
+                document.getElementById(`Adult_${i}`).style.display = 'block';
+            } else {
+                document.getElementById(`Adult_${i}`).style.display = 'none';
+            }
+        }
+    });
+
+    $('#numChild input').on('input', function () {
+        var enteredNum = parseInt($(this).val(), 10) || 1;
+        console.log("Entered Number: " + enteredNum);
+        for (var i = 1; i <= 11; i++) {
+            if (i <= enteredNum) {
+                document.getElementById(`Child_${i}`).style.display = 'block';
+            } else {
+                document.getElementById(`Child_${i}`).style.display = 'none';
+            }
+        }
+    });
+});
+
+</script>
+
+</form>
  
  
 @section Scripts {

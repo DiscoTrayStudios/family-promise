@@ -8,12 +8,12 @@ namespace FamilyPromiseApp.Models
 
     public enum AnyHouseHold
     {
-        Yes, No
+        No, Yes
     }
 
     public enum AnyChildren
     {
-        Yes, No
+        No, Yes
     }
 
     public class Person
@@ -25,7 +25,7 @@ namespace FamilyPromiseApp.Models
         // public int CaseID { get; set; }
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-        [Column("FirstName")]
+        [Column("First Name")]
         [Display(Name = "First Name")]
         public string FirstMidName { get; set; }
         [DataType(DataType.Date)]
@@ -56,7 +56,7 @@ namespace FamilyPromiseApp.Models
         public string AdultEmail { get; set; }
         [Display(Name = "Are there any children in the household?")]
         public AnyChildren? HouseHoldChildrenExist { get; set; }
-        [Display(Name = "Number of children in the household")]
+        [Display(Name = "How many children are in the household?")]
         public int ChildNum { get; set; }
         [Display(Name = "Child Name(s)")]
         public string ChildName { get; set; }
